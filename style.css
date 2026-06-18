@@ -1,0 +1,355 @@
+/* ------------------------------
+   BASE
+------------------------------ */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: #fff;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+header {
+    padding-top: 40px;   /* spazio sopra il logo */
+    padding-bottom: 40px; /* spazio sotto il logo */
+}
+
+
+/* ------------------------------
+   CANVAS SFONDI
+------------------------------ */
+#rainCanvas,
+#retroCanvas,
+#fantasyCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+}
+
+/* Ordine degli sfondi */
+#rainCanvas { z-index: -1; opacity: 0; }
+#retroCanvas { z-index: -2; opacity: 0; }
+#fantasyCanvas { z-index: -3; opacity: 0; }
+
+/* ------------------------------
+   LOGO SULLO SFONDO
+------------------------------ */
+.bg-logo {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 45vw;               /* dimensione sicura */
+    transform: translate(-50%, -50%);
+    opacity: 0;                /* parte invisibile */
+    z-index: 5;                /* 🔥 fondamentale: sopra i canvas */
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+    filter: drop-shadow(0 0 20px rgba(255,255,255,0.15));
+}
+
+
+
+/* LOGO NORMALE (testo grande al centro) */
+.logo {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.8rem;
+    margin: 0;
+    z-index: 9999;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* testo visibile solo in modalità grande */
+.logo-text {
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+/* immagine nascosta inizialmente */
+.logo-img {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    transition: all 0.35s ease;
+}
+
+/* LOGO RIDOTTO (immagine a sinistra) */
+.logo.shrink {
+    position: fixed;
+    top: 60px;
+    left: 25px;
+    transform: none;
+    font-size: 0; /* nasconde il testo */
+}
+
+/* quando shrinkato → mostra immagine */
+.logo.shrink .logo-text {
+    opacity: 0;
+}
+
+.logo.shrink .logo-img {
+    width: 120px;
+    height: 120px;
+    opacity: 1;
+}
+
+
+/* ------------------------------
+   MENU
+------------------------------ */
+.menu {
+    width: 90%;
+    margin: 20px auto;
+    background: rgba(34, 34, 34, 0.85);
+    padding: 15px;
+    border-radius: 20px;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+/* ------------------------------
+   CONTROLLI
+------------------------------ */
+.controls {
+    position: fixed;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 120px;
+    background: rgba(51, 51, 51, 0.85);
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    z-index: 9999;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.controls {
+    width: auto; /* si adatta al contenuto */
+    min-width: 160px; /* larghezza minima */
+    padding: 18px 20px; /* più spazio interno */
+    box-sizing: border-box;
+}
+
+.ctrl-row {
+    font-size: 1.1rem; /* leggermente più grande */
+    line-height: 1.4;  /* più spazio verticale */
+    white-space: nowrap; /* evita che vada a capo */
+}
+
+body.year-1970 .controls {
+    transform: translateY(-50%) scale(1.05);
+}
+
+
+
+.info-bubble {
+    position: fixed;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 55px;
+    height: 55px;
+    background: rgba(255,255,255,0.9);
+    color: black;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 9999;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+/* ------------------------------
+   LAYOUT PRINCIPALE
+------------------------------ */
+.container {
+    display: grid;
+    grid-template-columns: 150px 40px 250px 40px 1fr;
+    width: 90%;
+    max-width: 1500px;
+    margin: 40px auto;
+    align-items: start;
+}
+
+/* ------------------------------
+   TIMELINE
+------------------------------ */
+.timeline-container {
+    grid-column: 1;
+    position: relative;
+    min-height: 900px;
+}
+
+.timeline-svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.timeline-points {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    z-index: 10;
+}
+
+.timeline-points li {
+    display: flex;
+    align-items: center;
+    margin: 100px 0;
+    cursor: pointer;
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 11;
+    transition: transform 0.25s ease-out;
+}
+
+/* Pallino */
+.dot {
+    width: 28px;
+    height: 28px;
+    background: white;
+    border-radius: 50%;
+    margin-right: 14px;
+    border: 3px solid transparent;
+    transition: 0.25s ease-out;
+}
+
+/* Pallino attivo */
+.timeline-points li.active {
+    transform: translateX(40px);
+}
+
+.timeline-points li.active .dot {
+    background: yellow;
+    border-color: yellow;
+}
+
+/* ------------------------------
+   BOX GIOCHI
+------------------------------ */
+.games {
+    grid-column: 3;
+    background: rgba(34, 34, 34, 0.90);
+    backdrop-filter: blur(4px);
+    padding: 20px;
+    border-radius: 20px;
+    min-height: 350px;
+}
+
+/* ------------------------------
+   BOX INFO
+------------------------------ */
+.info {
+    grid-column: 5;
+    background: rgba(34, 34, 34, 0.92);
+    backdrop-filter: blur(4px);
+    padding: 30px;
+    border-radius: 20px;
+    min-height: 350px;
+}
+
+.hidden {
+    display: none;
+}
+
+#gameImage {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+/* ------------------------------
+   SPAZIATORI
+------------------------------ */
+.spacer {
+    width: 100%;
+    height: 100%;
+}
+
+#gamesList li {
+    padding: 6px 0;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+#gamesList li:hover {
+    color: yellow;
+}
+
+#gameTitle {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+#gameDescription {
+    text-align: left;
+    font-size: 1.05rem;
+    line-height: 1.55;
+}
+
+#gameDescription p {
+    margin-bottom: 12px;
+}
+
+@font-face {
+    font-family: "Font1970";
+    src: url("fonts/PressStart2P-vaV7.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Font1980";
+    src: url("fonts/Bongo-8Mono.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Font1990";
+    src: url("fonts/TypefaceMarioWorldPixelFilledRegular-rgVMx.ttf") format("truetype");
+}
+
+body.year-1970 {
+    font-family: "Font1970", sans-serif;
+}
+
+body.year-1980 {
+    font-family: "Font1980", sans-serif;
+}
+
+body.year-1990 {
+    font-family: "Font1990", sans-serif;
+}
+
+/* NUMERO DELLA DECADE QUANDO ATTIVO */
+.timeline-points li.active {
+    color: yellow;
+}

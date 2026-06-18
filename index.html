@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Archivio Videogiochi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- SFONDO 1970 (PIOGGIA) -->
+<canvas id="rainCanvas"></canvas>
+
+<!-- SFONDO 1980 (NEON GRID) -->
+<canvas id="retroCanvas"></canvas>
+
+<!-- SFONDO 1990 (FANTASY RPG) -->
+<canvas id="fantasyCanvas"></canvas>
+
+<!-- LOGO SULLO SFONDO -->
+<img id="backgroundGameLogo" class="bg-logo" src="" alt="">
+
+<header>
+    <h1 class="logo">
+    <span class="logo-text">Videogame Archive</span>
+    <img class="logo-img" src="img/logopagina.png" alt="logo">
+    </h1>
+</header>
+
+<nav class="menu hidden">
+    <ul>
+        <li>Home</li>
+        <li>Giochi</li>
+        <li>Storia</li>
+        <li>Contatti</li>
+    </ul>
+</nav>
+
+<div class="controls">
+    <div class="ctrl-row"><strong>W</strong> — Su</div>
+    <div class="ctrl-row"><strong>S</strong> — Giù</div>
+    <div class="ctrl-row"><strong>A</strong> — Indietro</div>
+    <div class="ctrl-row"><strong>D</strong> — Avanti / Apri</div>
+    <div class="ctrl-row"><strong>I</strong> — Menu</div>
+</div>
+
+
+<div id="infoBubble" class="info-bubble hidden">i</div>
+
+
+<main class="container">
+
+    <!-- TIMELINE -->
+    <div class="timeline-container">
+
+        <!-- LINEA SVG -->
+        <svg class="timeline-svg" width="200" height="900">
+            <polyline id="timelineLine"
+                fill="none"
+                stroke="#777"
+                stroke-width="3"
+                stroke-dasharray="10 10"
+                points="">
+            </polyline>
+        </svg>
+
+        <!-- PALLINI -->
+        <ul class="timeline-points" id="timelineList">
+            <li data-year="1970"><span class="dot"></span>1970</li>
+            <li data-year="1980"><span class="dot"></span>1980</li>
+            <li data-year="1990"><span class="dot"></span>1990</li>
+            <li data-year="2000"><span class="dot"></span>2000</li>
+            <li data-year="2010"><span class="dot"></span>2010</li>
+            <li data-year="2020"><span class="dot"></span>2020</li>
+        </ul>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- BOX GIOCHI -->
+    <div class="games hidden" id="gamesBox">
+        <h2>Giochi</h2>
+        <ul id="gamesList"></ul>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- BOX INFO -->
+    <div class="info hidden" id="infoBox">
+        <h2 id="gameTitle">Seleziona un gioco</h2>
+        <p id="gameDescription"></p>
+        <img id="gameImage" src="" alt="">
+    </div>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
